@@ -13,4 +13,6 @@ enum AttachmentType: String, Codable {
     case contact = "contact"
     case sticker = "sticker"
     case inline_keyboard = "inline_keyboard"
+    case location = "location"
+    case share = "share"
 }

@@ -5,7 +5,7 @@
 //  Created by Red Beard on 20.05.2021.
 //
 
-enum UpdateType: String {
+enum UpdateType: String, Codable {
     case message_callback = "message_callback"
     case message_created = "message_created"
     case message_removed = "message_removed"

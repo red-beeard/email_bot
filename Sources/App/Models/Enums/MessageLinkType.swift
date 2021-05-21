@@ -5,7 +5,7 @@
 //  Created by Red Beard on 20.05.2021.
 //
 
-enum MessageLinkType: String {
+enum MessageLinkType: String, Codable {
     case forward = "forward"
     case reply = "reply"
 }
