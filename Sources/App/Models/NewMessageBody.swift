@@ -1,15 +1,16 @@
 //
-//  NewMessage.swift
+//  NewMessageBody.swift
 //  
 //
 //  Created by Red Beard on 20.05.2021.
 //
 
-class NewMessage: Codable {
+class NewMessageBody: Codable {
     let text: String?
     let attachments: AttachmentRequest?
     let link: NewMessageLink?
     var notify = true
+//    var format: TextFormat? = nil
     
     init(with text: String?, with attachments: AttachmentRequest?, with link: NewMessageLink?) {
         self.text = text
