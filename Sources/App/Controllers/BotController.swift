@@ -15,7 +15,15 @@ class BotController {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
         
-        let message = NewMessageBody()
+        let buttons = [[Button(type: .callback, text: "Google", payload: "GoogleAuth", intent: nil)]]
+        let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
+        let keyboard = InlineKeyboardAttachmentRequest(
+            type: .inline_keyboard,
+            payload: keyboardPayload)
+        let message = NewMessageBody(with: "Выберите сервис", with: keyboard, with: nil)
+        let json = try JSONEncoder().encode(message)
+        let dataJson = try JSONDecoder().decode(String.self, from: json)
+        print(dataJson)
         
         
         return HTTPStatus.ok
@@ -41,4 +49,6 @@ class BotController {
 //            print(data)
 //        }.resume()
     }
+    
+    func sendKeyboard
 }
