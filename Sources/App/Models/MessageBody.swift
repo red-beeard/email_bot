@@ -10,4 +10,5 @@ class MessageBody: Codable {
     let seq: Int64
     let text: String?
     let attachments: [Attachment]
+//    let markup: [Markup]
 }

@@ -7,6 +7,6 @@
 
 class Recipient: Codable {
     let chatId: Int64?
-    let chatType: ChatType
-    let userId: Int64?
+    let chat_type: ChatType
+    let user_id: Int64?
 }

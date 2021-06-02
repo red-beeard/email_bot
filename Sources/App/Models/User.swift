@@ -6,8 +6,9 @@
 //
 
 class User: Codable {
-    let userId: Int64
+    let user_id: Int64
     let name: String
     let username: String?
-    let isBot: Bool
+    let is_bot: Bool
+//    let lastActivityTime: Int64
 }

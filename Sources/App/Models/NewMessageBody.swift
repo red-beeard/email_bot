@@ -10,7 +10,7 @@ class NewMessageBody: Codable {
     let attachments: AttachmentRequest?
     let link: NewMessageLink?
     var notify = true
-//    var format: TextFormat? = nil
+    var format: TextFormat? = nil
     
     init(with text: String?, with attachments: AttachmentRequest?, with link: NewMessageLink?) {
         self.text = text
