@@ -50,5 +50,5 @@ class BotController {
 //        }.resume()
     }
     
-    func sendKeyboard
+//    func sendKeyboard
 }
