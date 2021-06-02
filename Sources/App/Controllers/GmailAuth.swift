@@ -9,7 +9,7 @@ import Vapor
 
 class GmailAuth {
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
-        print(try req.content.decode(String.self))
+        print(try req.body.string ?? "mlml")
         return HTTPStatus.ok
     }
 }
