@@ -14,16 +14,8 @@ class BotController {
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
-//        print(req.body.string)
-//        print(req)
         
-//        if webHookType == UpdateType.bot_started.rawValue {
-//            return HTTPStatus.ok
-//        } else if webHookType == UpdateType.message_created.rawValue {
-//
-//        } else {
-//
-//        }
+//        let message = Nez/
         
         
         return HTTPStatus.ok

@@ -8,6 +8,6 @@
 class LinkedMessage: Codable {
     let type: MessageLinkType
     let sender: User
-    let chatId: Int64
+    let chat_id: Int64
     let message: MessageBody
 }

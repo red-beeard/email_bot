@@ -6,6 +6,6 @@
 //
 
 class NewMessageLink: Codable {
-    let type: String
+    let type: NewMessageBody
     let mid: String
 }
