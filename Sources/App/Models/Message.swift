@@ -14,4 +14,8 @@ class Message: Codable {
     let stat: MessageStat?
     let url: String?
     let constructor: User?
+//    
+//    required init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: Message.self)
+//    }
 }

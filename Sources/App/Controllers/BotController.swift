@@ -15,7 +15,7 @@ class BotController {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
         
-//        let message = Nez/
+        let message = NewMessageBody()
         
         
         return HTTPStatus.ok
