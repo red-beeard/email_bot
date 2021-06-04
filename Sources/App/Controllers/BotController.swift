@@ -16,6 +16,9 @@ class BotController {
     private let welcomeMessage = """
         Hello. I am a bot that can collect mail from e-mail and send it to Tam-Tam. If you want to add a mailbox, click on the /add command. You can do it right in my message)
         """
+    private let dontUnderstandMessage = """
+        I do not understand you
+        """
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
         print(req.description)
@@ -26,23 +29,27 @@ class BotController {
         switch webHook.updateType {
         case .message_created:
             let webHook = try req.content.decode(MessageCreatedUpdate.self)
-            if let chatId = webHook.message.recipient.chatId {
-                try sendMessage(with: "Привет))", to: chatId)
-                try sendKeyboard(to: chatId)
-            }
+            try handleMessageCreated(webHook)
         case .bot_started:
             let webHook = try req.content.decode(BotStartedUpdate.self)
             try sendMessage(with: welcomeMessage, to: webHook.chatId)
         default: print("Другой вебхук")
         }
         print(try req.content.decode(Update.self).timestamp)
-        let message = try req.content.decode(MessageCreatedUpdate.self)
-        print(message.updateType)
-        print(message.description())
-        
-        
-        
+
         return HTTPStatus.ok
+    }
+    
+    func handleMessageCreated(_ update: MessageCreatedUpdate) throws {
+        guard let chatId = update.message.recipient.chatId else { return }
+        guard let text = update.message.body.text else {
+            try sendMessage(with: dontUnderstandMessage, to: chatId)
+            return
+        }
+        
+        if text == "/add" {
+            try sendKeyboard(to: chatId)
+        }
     }
     
     private func getKeyboard() -> InlineKeyboardAttachmentRequest {
@@ -57,7 +64,7 @@ class BotController {
     
     private func sendKeyboard(to chatId: Int64) throws {
         let keyboard = [getKeyboard()]
-        let message = NewMessageBody(with: "Выберите сервис", with: keyboard)
+        let message = NewMessageBody(with: "Select service:", with: keyboard)
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }

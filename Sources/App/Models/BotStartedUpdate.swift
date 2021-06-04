@@ -24,7 +24,7 @@ class BotStartedUpdate: Update {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         chatId = try container.decode(Int64.self, forKey: .chatId)
-        user = try container.decode(User.self, forKey: .payload)
+        user = try container.decode(User.self, forKey: .user)
         payload = try? container.decode(String.self, forKey: .payload)
         userLocale = try? container.decode(String.self, forKey: .userLocale)
         try super.init(from: decoder)
