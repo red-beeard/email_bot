@@ -6,7 +6,9 @@
 //
 
 import Vapor
-import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 
 class BotController {
     private let token = "vlIHSMAYdD4N3V_1LHKeeFJS9a9mJ7vu2eg6VLXzVWA"
