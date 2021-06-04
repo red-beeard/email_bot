@@ -13,17 +13,33 @@ import Vapor
 class BotController {
     private let token = "vlIHSMAYdD4N3V_1LHKeeFJS9a9mJ7vu2eg6VLXzVWA"
     private let urlMessage = "https://botapi.tamtam.chat/messages"
+    private let welcomeMessage = """
+        Hello. I am a bot that can collect mail from e-mail and send it to Tam-Tam. If you want to add a mailbox, click on the /add command. You can do it right in my message)
+        """
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
-        guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
-        print(webHookType)
+        let webHook = try req.content.decode(Update.self)
+        print(webHook.updateType)
+        print(webHook.timestamp)
         
+        switch webHook.updateType {
+        case .message_created:
+            let webHook = try req.content.decode(MessageCreatedUpdate.self)
+            if let chatId = webHook.message.recipient.chatId {
+                try sendMessage(with: "Привет))", to: chatId)
+                try sendKeyboard(to: chatId)
+            }
+        case .bot_started:
+            let webHook = try req.content.decode(BotStartedUpdate.self)
+            try sendMessage(with: welcomeMessage, to: webHook.chatId)
+        default: print("Другой вебхук")
+        }
         print(try req.content.decode(Update.self).timestamp)
         let message = try req.content.decode(MessageCreatedUpdate.self)
+        print(message.updateType)
         print(message.description())
         
-        try sendMessage(with: "Привет))", to: 6296683952)
-        try sendKeyboard(to: 6296683952)
+        
         
         return HTTPStatus.ok
     }
