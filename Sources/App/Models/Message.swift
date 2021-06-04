@@ -14,6 +14,13 @@ class Message: Codable {
     let stat: MessageStat?
     let url: String?
     let constructor: User?
+    
+    // MARK: - Description
+    func description() -> String {
+        return """
+            sender: \(sender.description())
+            """
+    }
 
     // MARK: - JSON
     

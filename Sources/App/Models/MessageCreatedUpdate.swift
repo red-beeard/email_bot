@@ -15,6 +15,14 @@ class MessageCreatedUpdate: Update {
         super.init(updateType: updateType, timestamp: timestamp)
     }
     
+    // MARK: - Description
+    func description() -> String {
+        return """
+            message: \(message.description())
+            userLocale: \(userLocale ?? "nil")
+            """
+    }
+    
     // MARK: - JSON
     
     private enum CodingKeys: String, CodingKey {

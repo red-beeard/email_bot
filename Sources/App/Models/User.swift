@@ -12,6 +12,17 @@ class User: Codable {
     let isBot: Bool
     let lastActivityTime: Int64
     
+    // MARK: - Description
+    func description() -> String {
+        return """
+            user_id: \(userId)
+            name: \(name)
+            username: \(username ?? "nil")
+            is_bot: \(isBot)
+            last_activity_time: \(lastActivityTime)
+            """
+    }
+    
     // MARK: - JSON
     
     private enum CodingKeys: String, CodingKey {
