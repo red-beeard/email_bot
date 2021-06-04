@@ -48,21 +48,21 @@ class BotController {
         }
         
         if text == "/add" {
-            try sendKeyboard(to: chatId)
+            try sendKeyboard(to: chatId, and: update.message.sender.userId)
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
         }
     }
     
-    private func getKeyboard() -> InlineKeyboardAttachmentRequest {
-        let buttons = [[LinkButton(text: "Google", url: "google.com")]]
+    private func getKeyboard(for userId: Int64) -> InlineKeyboardAttachmentRequest {
+        let buttons = [[LinkButton(text: "Google", url: GmailAuth().getUrlForAuth(for: userId))]]
         let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
         let keyboard = InlineKeyboardAttachmentRequest(payload: keyboardPayload)
         return keyboard
     }
     
-    private func sendKeyboard(to chatId: Int64) throws {
-        let keyboard = [getKeyboard()]
+    private func sendKeyboard(to chatId: Int64, and userId: Int64) throws {
+        let keyboard = [getKeyboard(for: userId)]
         let message = NewMessageBody(with: "Select service:", with: keyboard)
         let json = try JSONEncoder().encode(message)
         
