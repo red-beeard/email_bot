@@ -11,4 +11,13 @@ class AttachmentRequest: Codable {
     init(type: AttachmentType) {
         self.type = type
     }
+    
+    private enum CodingKeys: CodingKey {
+        case type
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+    }
 }

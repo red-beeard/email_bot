@@ -5,7 +5,7 @@
 //  Created by Red Beard on 20.05.2021.
 //
 
-class InlineKeyboardAttachmentRequestPayload {
+class InlineKeyboardAttachmentRequestPayload: Codable {
     let buttons: [[Button]]
     
     init(buttons: [[Button]]) {
