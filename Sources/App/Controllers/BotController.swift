@@ -18,9 +18,10 @@ class BotController {
         """
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
+        print(req.method)
+        print(req.description)
         let webHook = try req.content.decode(Update.self)
         print(webHook.updateType)
-        print(webHook.timestamp)
         
         switch webHook.updateType {
         case .message_created:
