@@ -73,7 +73,8 @@ class BotController {
             items.append(URLQueryItem(name: key, value: value))
         }
         url.queryItems = items
-        var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
+        var request = URLRequest(url: (url.url)!)
+        // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
         request.httpBody = json
         
