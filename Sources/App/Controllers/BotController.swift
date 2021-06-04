@@ -35,7 +35,7 @@ class BotController {
     
     private func sendKeyboard(to chatId: Int64) throws {
         let keyboard = [getKeyboard()]
-        let message = NewMessageBody(with: "Выберите сервис", with: keyboard, with: nil)
+        let message = NewMessageBody(with: "Выберите сервис", with: keyboard)
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }
@@ -51,9 +51,9 @@ class BotController {
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+//            if let response = response {
+//                print(response)
+//            }
 
             guard let data = data else { return }
             print(data)

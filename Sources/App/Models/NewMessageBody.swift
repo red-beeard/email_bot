@@ -10,9 +10,8 @@ class NewMessageBody: Codable {
     let attachments: [AttachmentRequest]?
     let link: NewMessageLink?
     var notify = true
-    var format: TextFormat? = nil
     
-    init(with text: String?, with attachments: [AttachmentRequest]?, with link: NewMessageLink?) {
+    init(with text: String? = nil, with attachments: [AttachmentRequest]? = nil, with link: NewMessageLink? = nil) {
         self.text = text
         self.attachments = attachments
         self.link = link
@@ -22,12 +21,12 @@ class NewMessageBody: Codable {
         self.notify = notify
     }
     
+    // MARK: - URL
     private enum CodingKeys: CodingKey {
         case text
         case attachments
         case link
         case notify
-        case format
     }
     
     func encode(to encoder: Encoder) throws {
@@ -45,9 +44,5 @@ class NewMessageBody: Codable {
         }
 
         try container.encode(notify, forKey: .notify)
-        
-        if let format = format {
-            try container.encode(format, forKey: .format)
-        }
     }
 }
