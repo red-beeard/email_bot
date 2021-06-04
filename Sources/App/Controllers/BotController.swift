@@ -5,7 +5,8 @@
 //  Created by Red Beard on 20.05.2021.
 //
 
-import Vapor, Foundation
+import Vapor
+import Foundation
 
 class BotController {
     private let token = "vlIHSMAYdD4N3V_1LHKeeFJS9a9mJ7vu2eg6VLXzVWA"
