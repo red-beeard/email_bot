@@ -24,6 +24,6 @@ class Update: Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         updateType = try container.decode(UpdateType.self, forKey: .updateType)
-        timestamp = try container.decode(Int64, forKey: .timestamp)
+        timestamp = try container.decode(Int64.self, forKey: .timestamp)
     }
 }
