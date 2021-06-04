@@ -56,7 +56,7 @@ class BotController {
         }.resume()
     }
     
-    func sendMessage(with text: String, to chatId: Int64) {
+    func sendMessage(with text: String, to chatId: Int64) throws {
         let message = NewMessageBody(with: "Выберите сервис")
         let json = try JSONEncoder().encode(message)
         
