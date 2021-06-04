@@ -15,7 +15,20 @@ class MessageCreatedUpdate: Update {
         super.init(updateType: updateType, timestamp: timestamp)
     }
     
+    // MARK: - JSON
+    
+    private enum CodingKeys: String, CodingKey {
+        case updateType = "update_type"
+        case timestamp
+        case message
+        case userLocale = "user_locale"
+    }
+    
     required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        message = try container.decode(Message.self, forKey: .message)
+        userLocale = try? container.decode(String.self, forKey: .userLocale)
+        try super.init(from: decoder)
     }
 }

@@ -19,6 +19,8 @@ class BotController {
         print(webHookType)
         
         print(try req.content.decode(Update.self).timestamp)
+        let message = try req.content.decode(MessageCreatedUpdate.self)
+//        print(message)
         
         try sendMessage(with: "Привет))", to: 6296683952)
         try sendKeyboard(to: 6296683952)

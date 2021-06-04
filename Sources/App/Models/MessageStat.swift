@@ -7,4 +7,16 @@
 
 class MessageStat: Codable {
     let views: Int
+    
+    // MARK: - JSON
+    
+    private enum CodingKeys: CodingKey {
+        case views
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        views = try container.decode(Int.self, forKey: .views)
+    }
 }
