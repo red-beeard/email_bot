@@ -18,6 +18,7 @@ class BotController {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
         
+        try sendMessage(with: "Привет))", to: 6296683952)
         try sendKeyboard(to: 6296683952)
         
         return HTTPStatus.ok
@@ -51,33 +52,29 @@ class BotController {
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
-            guard let data = data else { return }
-            if let decodedResponse = try? JSONDecoder().decode(String.self, from: data) {
-                print(decodedResponse)
-            }
+//            guard let data = data else { return }
         }.resume()
-        
     }
     
     func sendMessage(with text: String, to chatId: Int64) {
-//        guard var url = URLComponents(string: urlMessage) else { return }
-//        var items: [URLQueryItem] = []
-//        let parameters = ["access_token" : token]
-//        for (key, value) in parameters {
-//            items.append(URLQueryItem(name: key, value: value))
-//        }
-//        url.queryItems = items
-//        let request = URLRequest(url: (url.url)!)
-//
-//        let session = URLSession(configuration: .ephemeral)
-//        session.dataTask(with: request) { (data, response, error) in
-//            if let response = response {
-//                print(response)
-//            }
-//
+        let message = NewMessageBody(with: "Выберите сервис")
+        let json = try JSONEncoder().encode(message)
+        
+        guard var url = URLComponents(string: urlMessage) else { return }
+        var items: [URLQueryItem] = []
+        let parameters = ["access_token" : token, "chat_id": String(chatId)]
+        for (key, value) in parameters {
+            items.append(URLQueryItem(name: key, value: value))
+        }
+        url.queryItems = items
+        var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
+        request.httpMethod = "POST"
+        request.httpBody = json
+        
+        let session = URLSession(configuration: .ephemeral)
+        session.dataTask(with: request) { (data, response, error) in
 //            guard let data = data else { return }
-//            print(data)
-//        }.resume()
+        }.resume()
     }
     
 //    func sendKeyboard
