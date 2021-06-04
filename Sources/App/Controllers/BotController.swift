@@ -49,6 +49,8 @@ class BotController {
         
         if text == "/add" {
             try sendKeyboard(to: chatId)
+        } else {
+            try sendMessage(with: dontUnderstandMessage, to: chatId)
         }
     }
     
