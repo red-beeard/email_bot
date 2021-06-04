@@ -18,6 +18,8 @@ class BotController {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
         
+        print(req.content.decode(Update).timestamp)
+        
         try sendMessage(with: "Привет))", to: 6296683952)
         try sendKeyboard(to: 6296683952)
         
@@ -57,7 +59,7 @@ class BotController {
     }
     
     func sendMessage(with text: String, to chatId: Int64) throws {
-        let message = NewMessageBody(with: "Выберите сервис")
+        let message = NewMessageBody(with: text)
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }

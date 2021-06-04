@@ -21,7 +21,7 @@ class NewMessageBody: Codable {
         self.notify = notify
     }
     
-    // MARK: - URL
+    // MARK: - JSON
     private enum CodingKeys: CodingKey {
         case text
         case attachments

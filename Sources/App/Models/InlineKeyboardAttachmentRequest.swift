@@ -13,10 +13,7 @@ class InlineKeyboardAttachmentRequest: AttachmentRequest {
         super.init(type: type)
     }
     
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
-    
+    // MARK: - JSON
     private enum CodingKeys: CodingKey {
         case type
         case payload
@@ -26,5 +23,9 @@ class InlineKeyboardAttachmentRequest: AttachmentRequest {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
         try container.encode(payload, forKey: .payload)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
     }
 }

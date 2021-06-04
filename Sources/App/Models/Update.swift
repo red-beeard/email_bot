@@ -13,4 +13,17 @@ class Update: Codable {
         self.updateType = updateType
         self.timestamp = timestamp
     }
+    
+    // MARK: - JSON
+    
+    private enum CodingKeys: String, CodingKey {
+        case updateType = "update_type"
+        case timestamp
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        updateType = try container.decode(UpdateType.self, forKey: .updateType)
+        timestamp = try container.decode(Int64, forKey: .timestamp)
+    }
 }
