@@ -18,7 +18,7 @@ class BotController {
         guard let webHookType: String = req.content["update_type"] else { return HTTPStatus.ok }
         print(webHookType)
         
-        print(req.content.decode(Update).timestamp)
+        print(try req.content.decode(Update.self).timestamp)
         
         try sendMessage(with: "Привет))", to: 6296683952)
         try sendKeyboard(to: 6296683952)
