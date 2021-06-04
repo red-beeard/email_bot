@@ -81,9 +81,7 @@ class BotController {
         request.httpBody = json
         
         let session = URLSession(configuration: .ephemeral)
-        session.dataTask(with: request) { (data, response, error) in
-//            guard let data = data else { return }
-        }.resume()
+        session.dataTask(with: request) { (data, response, error) in }.resume()
     }
     
     func sendMessage(with text: String, to chatId: Int64) throws {
@@ -102,10 +100,6 @@ class BotController {
         request.httpBody = json
         
         let session = URLSession(configuration: .ephemeral)
-        session.dataTask(with: request) { (data, response, error) in
-//            guard let data = data else { return }
-        }.resume()
+        session.dataTask(with: request) { (data, response, error) in }.resume()
     }
-    
-//    func sendKeyboard
 }
