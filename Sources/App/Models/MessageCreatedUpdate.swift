@@ -9,10 +9,10 @@ class MessageCreatedUpdate: Update {
     let message: Message
     let userLocale: String?
     
-    init(updateType: UpdateType, timestamp: Int64, message: Message, userLocale: String?) {
+    init(timestamp: Int64, message: Message, userLocale: String?) {
         self.message = message
         self.userLocale = userLocale
-        super.init(updateType: updateType, timestamp: timestamp)
+        super.init(updateType: .messageCreated, timestamp: timestamp)
     }
     
     // MARK: - Description
