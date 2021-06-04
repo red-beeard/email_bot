@@ -51,12 +51,10 @@ class BotController {
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
-//            if let response = response {
-//                print(response)
-//            }
-
             guard let data = data else { return }
-            print(data)
+            if let decodedResponse = try? JSONDecoder().decode(String.self, from: data) {
+                print(decodedResponse)
+            }
         }.resume()
         
     }

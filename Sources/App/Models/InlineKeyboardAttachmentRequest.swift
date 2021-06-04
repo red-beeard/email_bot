@@ -23,7 +23,6 @@ class InlineKeyboardAttachmentRequest: AttachmentRequest {
     }
     
     override func encode(to encoder: Encoder) throws {
-        print(#file)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
         try container.encode(payload, forKey: .payload)
