@@ -5,7 +5,7 @@
 //  Created by Red Beard on 20.05.2021.
 //
 
-import Vapor
+import Vapor, Foundation
 
 class BotController {
     private let token = "vlIHSMAYdD4N3V_1LHKeeFJS9a9mJ7vu2eg6VLXzVWA"
@@ -20,7 +20,7 @@ class BotController {
         return HTTPStatus.ok
     }
     
-    func getKeyboard() -> InlineKeyboardAttachmentRequest {
+    private func getKeyboard() -> InlineKeyboardAttachmentRequest {
         let buttons = [[Button(type: .callback, text: "Google", payload: "GoogleAuth", intent: nil)]]
         let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
         let keyboard = InlineKeyboardAttachmentRequest(
@@ -30,7 +30,7 @@ class BotController {
         return keyboard
     }
     
-    func sendKeyboard(to chatId: Int64) throws {
+    private func sendKeyboard(to chatId: Int64) throws {
         let keyboard = [getKeyboard()]
         let message = NewMessageBody(with: "Выберите сервис", with: keyboard, with: nil)
         let json = try JSONEncoder().encode(message)
