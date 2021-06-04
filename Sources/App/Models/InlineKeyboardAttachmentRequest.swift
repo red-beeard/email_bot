@@ -8,9 +8,9 @@
 class InlineKeyboardAttachmentRequest: AttachmentRequest {
     var payload: InlineKeyboardAttachmentRequestPayload
     
-    init(type: AttachmentType, payload: InlineKeyboardAttachmentRequestPayload) {
+    init(payload: InlineKeyboardAttachmentRequestPayload) {
         self.payload = payload
-        super.init(type: type)
+        super.init(type: .inlineKeyboard)
     }
     
     // MARK: - JSON

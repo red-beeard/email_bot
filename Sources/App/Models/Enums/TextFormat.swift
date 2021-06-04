@@ -7,6 +7,6 @@
 
 
 enum TextFormat: String, Codable {
-    case markdown = "markdown"
-    case html = "html"
+    case markdown
+    case html
 }

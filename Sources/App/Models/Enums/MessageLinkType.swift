@@ -6,6 +6,6 @@
 //
 
 enum MessageLinkType: String, Codable {
-    case forward = "forward"
-    case reply = "reply"
+    case forward
+    case reply
 }

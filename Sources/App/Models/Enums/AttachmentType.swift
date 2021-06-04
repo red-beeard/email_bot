@@ -6,13 +6,13 @@
 //
 
 enum AttachmentType: String, Codable {
-    case image = "image"
-    case video = "video"
-    case audio = "audio"
-    case file = "file"
-    case contact = "contact"
-    case sticker = "sticker"
-    case inline_keyboard = "inline_keyboard"
-    case location = "location"
-    case share = "share"
+    case image
+    case video
+    case audio
+    case file
+    case contact
+    case sticker
+    case inlineKeyboard = "inline_keyboard"
+    case location
+    case share
 }

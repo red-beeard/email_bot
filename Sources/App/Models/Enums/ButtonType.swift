@@ -6,9 +6,9 @@
 //
 
 enum ButtonType: String, Codable {
-    case callback = "callback"
-    case link = "link"
-    case request_contact = "request_contact"
-    case request_geo_location = "request_geo_location"
-    case chat = "chat"
+    case callback
+    case link
+    case requestContact = "request_contact"
+    case requestGeoLocation = "request_geo_location"
+    case chat
 }

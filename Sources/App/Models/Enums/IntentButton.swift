@@ -6,7 +6,7 @@
 //
 
 enum IntentButton: String, Codable {
-    case positive = "positive"
-    case negative = "negative"
+    case positive
+    case negative
     // Exist default
 }

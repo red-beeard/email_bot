@@ -11,21 +11,18 @@ class ChatButton: Button {
     let startPayload: String?
     let uuid: Int?
     
-    init(type: ButtonType, text: String, payload: String, intent: IntentButton? = nil,
-         chatTitle: String, chatDescription: String? = nil, startPayload: String? = nil, uuid: Int? = nil) {
+    init(text: String, chatTitle: String, chatDescription: String? = nil, startPayload: String? = nil, uuid: Int? = nil) {
         self.chatTitle = chatTitle
         self.chatDescription = chatDescription
         self.startPayload = startPayload
         self.uuid = uuid
-        super.init(type: type, text: text, payload: payload, intent: intent)
+        super.init(type: .chat, text: text)
     }
     
     // MARK: - JSON
     private enum CodingKeys: String, CodingKey {
         case type
         case text
-        case payload
-        case intent
         case chatTitle = "chatTitle"
         case chatDescription = "chat_description"
         case startPayload = "start_payload"
@@ -37,12 +34,7 @@ class ChatButton: Button {
         
         try container.encode(type, forKey: .type)
         try container.encode(text, forKey: .text)
-        try container.encode(payload, forKey: .payload)
         try container.encode(chatTitle, forKey: .chatTitle)
-        if let intent = intent {
-            try container.encode(intent, forKey: .intent)
-        }
-        
         if let chatDescription = chatDescription {
             try container.encode(chatDescription, forKey: .chatDescription)
         }

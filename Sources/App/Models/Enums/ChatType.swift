@@ -6,7 +6,7 @@
 //
 
 enum ChatType: String, Codable {
-    case dialog = "dialog"
-    case chat = "chat"
-    case channel = "channel"
+    case dialog
+    case chat
+    case channel
 }

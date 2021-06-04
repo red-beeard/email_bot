@@ -27,10 +27,10 @@ class BotController {
         print(webHook.updateType)
         
         switch webHook.updateType {
-        case .message_created:
+        case .messageCreated:
             let webHook = try req.content.decode(MessageCreatedUpdate.self)
             try handleMessageCreated(webHook)
-        case .bot_started:
+        case .botStarted:
             let webHook = try req.content.decode(BotStartedUpdate.self)
             try sendMessage(with: welcomeMessage, to: webHook.chatId)
         default: print("Другой вебхук")
@@ -55,12 +55,9 @@ class BotController {
     }
     
     private func getKeyboard() -> InlineKeyboardAttachmentRequest {
-        let buttons = [[Button(type: .callback, text: "Google", payload: "GoogleAuth", intent: nil)]]
+        let buttons = [[LinkButton(text: "Google", url: "google.com")]]
         let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
-        let keyboard = InlineKeyboardAttachmentRequest(
-            type: .inline_keyboard,
-            payload: keyboardPayload
-        )
+        let keyboard = InlineKeyboardAttachmentRequest(payload: keyboardPayload)
         return keyboard
     }
     
