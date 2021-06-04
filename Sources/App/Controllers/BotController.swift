@@ -19,7 +19,7 @@ class BotController {
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
         print(req.description)
-        print()
+        print("")
         print(req.content)
         let webHook = try req.content.decode(Update.self)
         print(webHook.updateType)
