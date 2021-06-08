@@ -42,7 +42,7 @@ class BotController {
         print(req.description)
         print(req.body.string ?? "Нифига")
         let webHook = try req.content.decode(Update.self)
-        print(webHook.updateType)
+        print("Update Type: \(webHook.updateType.rawValue)")
         
         switch webHook.updateType {
         case .messageCreated:
@@ -53,7 +53,7 @@ class BotController {
             try sendMessage(with: welcomeMessage, to: webHook.chatId)
         default: print("Другой вебхук")
         }
-
+        
         return HTTPStatus.ok
     }
     
@@ -94,6 +94,8 @@ class BotController {
         // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
         request.httpBody = json
+        
+        print(json)
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
