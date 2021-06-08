@@ -1,5 +1,5 @@
 //
-//  GmailAuth.swift
+//  GoogleAuthController.swift
 //  
 //
 //  Created by Red Beard on 02.06.2021.
@@ -7,7 +7,7 @@
 
 import Vapor
 
-class GmailAuth {
+class GoogleAuthController {
     private let urlAuth = "https://accounts.google.com/o/oauth2/v2/auth"
     private let clientId = "client_id=60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com"
     
