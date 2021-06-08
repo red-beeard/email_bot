@@ -8,7 +8,7 @@ func routes(_ app: Application) throws {
     app.get("") { req -> HTTPResponseStatus in
         print("Полученный запрос:")
         print(req.description)
-        print(req.body.string ?? "Нифига")
+        print(req.body.string ?? "Ничего")
         return HTTPStatus.ok
     }
 }
