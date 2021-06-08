@@ -39,10 +39,14 @@ class BotController {
         """
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
+        print("Полученный запрос:")
         print(req.description)
-        print(req.body.string ?? "Нифига")
+        print(req.body.string ?? "Ничего")
+        print("\n")
+        
         let webHook = try req.content.decode(Update.self)
         print("Update Type: \(webHook.updateType.rawValue)")
+        print("\n")
         
         switch webHook.updateType {
         case .messageCreated:
@@ -95,7 +99,9 @@ class BotController {
         request.httpMethod = "POST"
         request.httpBody = json
         
+        print("\nОтправляемый запрос:")
         print(String(data: json, encoding: .utf8) ?? "Не распечатал")
+        print("\n")
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in

@@ -10,7 +10,7 @@ import Vapor
 class GmailController {
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
         print(req.description)
-        print(req.body.string ?? "Нифига")
+        print(req.body.string ?? "Ничего")
         return HTTPStatus.ok
     }
 }

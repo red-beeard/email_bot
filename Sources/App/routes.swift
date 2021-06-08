@@ -6,6 +6,7 @@ func routes(_ app: Application) throws {
     app.post("WebHookGmail", use: GmailController().handleWebHook)
     
     app.get("") { req -> HTTPResponseStatus in
+        print("Полученный запрос:")
         print(req.description)
         print(req.body.string ?? "Нифига")
         return HTTPStatus.ok
