@@ -44,7 +44,7 @@ class GoogleAuthController {
         var items: [URLQueryItem] = []
         let parameters = [
             "response_type" : "code",
-            "scope": "email https://mail.google.com",
+            "scope": "email+https://mail.google.com",
             "access_type": "offline",
             "client_id": "60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com",
             "redirect_uri": "https://ttmailbot.site/google.oauth2",
