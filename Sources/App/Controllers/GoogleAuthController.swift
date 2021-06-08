@@ -54,6 +54,8 @@ class GoogleAuthController {
             items.append(URLQueryItem(name: key, value: value))
         }
         url.queryItems = items
+        
+        url.query = url.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 
         print(url.string!)
         return url.string! // Явное извлечение опционалов плохая практика
