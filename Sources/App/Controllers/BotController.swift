@@ -72,7 +72,7 @@ class BotController {
     }
     
     private func getKeyboard(for userId: Int64) -> InlineKeyboardAttachmentRequest {
-        let buttons = [[LinkButton(text: "Google", url: "https://ttmailbot.site/google.oauth2?state=\(userId)")]]
+        let buttons = [[LinkButton(text: "Google", url: GmailAuth().getUrlForAuth(for: userId))]]
         let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
         let keyboard = InlineKeyboardAttachmentRequest(payload: keyboardPayload)
         return keyboard

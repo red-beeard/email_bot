@@ -39,7 +39,7 @@ class GmailAuth {
 //        }.resume()
 //    }
     
-    private func getUrlForAuth(for userId: String) -> String {
+    func getUrlForAuth(for userId: Int64) -> String {
         guard var url = URLComponents(string: urlAuth) else { return "" }
         var items: [URLQueryItem] = []
         let parameters = [
@@ -48,7 +48,7 @@ class GmailAuth {
             "access_type": "offline",
             "client_id": "60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com",
             "redirect_uri": "https://ttmailbot.site/google.oauth2",
-            "state": userId
+            "state": String(userId)
         ]
         for (key, value) in parameters {
             items.append(URLQueryItem(name: key, value: value))
