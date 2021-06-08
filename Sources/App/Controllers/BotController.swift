@@ -95,7 +95,7 @@ class BotController {
         request.httpMethod = "POST"
         request.httpBody = json
         
-        print(json)
+        print(String(data: json, encoding: .utf8) ?? "Не распечатал")
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
