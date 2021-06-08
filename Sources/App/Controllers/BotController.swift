@@ -106,7 +106,7 @@ class BotController {
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
             if let data = data {
-                let responseData = try! JSONDecoder().decode(ErrorApiTamtam.self, from: data)
+                let responseData = try JSONDecoder().decode(ErrorApiTamtam.self, from: data)
                 print("code: \(responseData.code)")
                 print("message: \(responseData.message)")
             }
