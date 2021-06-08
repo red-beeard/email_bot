@@ -16,29 +16,6 @@ class GoogleAuthController {
         return HTTPStatus.ok
     }
     
-//    private func getShortUrl(for url: String) -> String {
-//        guard var url = URLComponents(string: "https://clck.ru/--") else { return }
-//        url.queryItems = [URLQueryItem(name: "url", value: url)]
-//
-//        var request = URLRequest(url: (url.url)!)
-//        // Явное извлечения опционала плохая практика
-//        request.httpMethod = "POST"
-//        request.httpBody = json
-//
-//        let session = URLSession(configuration: .ephemeral)
-//        session.dataTask(with: request) { (data, response, error) in
-//            if let data = data {
-//                let responseData = try! JSONDecoder().decode(ErrorApiTamtam.self, from: data)
-//                print("code: \(responseData.code)")
-//                print("message: \(responseData.message)")
-//            }
-//            if let response = response {
-//                let httpResponse = response as! HTTPURLResponse
-//                print("response code = \(httpResponse.statusCode)")
-//            }
-//        }.resume()
-//    }
-    
     func getUrlForAuth(for userId: Int64) -> String {
         guard var url = URLComponents(string: urlAuth) else { return "" }
         var items: [URLQueryItem] = []
