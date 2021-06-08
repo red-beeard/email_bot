@@ -16,23 +16,46 @@ class GmailAuth {
         return HTTPStatus.ok
     }
     
-    func getUrlForAuth(for userId: Int64) -> String {
+//    private func getShortUrl(for url: String) -> String {
+//        guard var url = URLComponents(string: "https://clck.ru/--") else { return }
+//        url.queryItems = [URLQueryItem(name: "url", value: url)]
+//
+//        var request = URLRequest(url: (url.url)!)
+//        // Явное извлечения опционала плохая практика
+//        request.httpMethod = "POST"
+//        request.httpBody = json
+//
+//        let session = URLSession(configuration: .ephemeral)
+//        session.dataTask(with: request) { (data, response, error) in
+//            if let data = data {
+//                let responseData = try! JSONDecoder().decode(ErrorApiTamtam.self, from: data)
+//                print("code: \(responseData.code)")
+//                print("message: \(responseData.message)")
+//            }
+//            if let response = response {
+//                let httpResponse = response as! HTTPURLResponse
+//                print("response code = \(httpResponse.statusCode)")
+//            }
+//        }.resume()
+//    }
+    
+    private func getUrlForAuth(for userId: String) -> String {
         guard var url = URLComponents(string: urlAuth) else { return "" }
         var items: [URLQueryItem] = []
         let parameters = [
             "response_type" : "code",
-            "scope": "email https://www.googleapis.com/auth/userinfo.email openid https://mail.google.com/",
+            "scope": "email https://mail.google.com",
             "access_type": "offline",
             "client_id": "60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com",
             "redirect_uri": "https://ttmailbot.site/google.oauth2",
-            "state": String(userId)
+            "state": userId
         ]
         for (key, value) in parameters {
             items.append(URLQueryItem(name: key, value: value))
         }
         url.queryItems = items
-        
-        print(url.query!)
-        return url.query! // Явное извлечение опционалов плохая практика
+
+        print(url.string!)
+        return url.string! // Явное извлечение опционалов плохая практика
     }
 }
