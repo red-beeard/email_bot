@@ -8,24 +8,65 @@
 import Vapor
 
 class GoogleAuthController {
-    private let urlAuth = "https://accounts.google.com/o/oauth2/v2/auth"
-    private let clientId = "client_id=60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com"
+    private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
+    private let tokenUri = "https://oauth2.googleapis.com/token"
+    private let redirectUri = "https://ttmailbot.site/google.oauth2"
     
     func handleAuth(req: Request) throws -> HTTPResponseStatus {
         print(req.url.string)
-        let authCode = String()
+        print("")
+        guard let authCode: String = req.query["code"] else {
+            print("auth_code не пришёл")
+            return HTTPStatus.ok
+        }
+        print(authCode)
+        print("")
+        
+        print(getAccessToken(authCode: authCode))
+        
         return HTTPStatus.ok
     }
     
+    func getAccessToken(authCode: String) -> String {
+        guard let url = URL(string: tokenUri) else { return "" }
+        
+        let parameters = [
+            "client_id": Environment.googleClientId,
+            "client_secret": Environment.googleClientSecret,
+            "grant_type": "authorization_code",
+            "redirect_uri": redirectUri,
+            "code": authCode,
+            "access_type": "offline",
+            "prompt": "consent"
+        ]
+        let json = try? JSONEncoder().encode(parameters)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = json
+        
+        let session = URLSession(configuration: .ephemeral)
+        session.dataTask(with: request) { (data, response, error) in
+            guard let data = data else { return }
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+                print(String(decoding: jsonData, as: UTF8.self))
+            } else {
+                print("json отсутствует")
+            }
+        }.resume()
+        return ""
+    }
+    
     func getUrlForAuth(for userId: Int64) -> String {
-        guard var url = URLComponents(string: urlAuth) else { return "" }
+        guard var url = URLComponents(string: authUri) else { return "" }
         var items: [URLQueryItem] = []
         let parameters = [
             "response_type" : "code",
             "scope": "email https://mail.google.com",
             "access_type": "offline",
-            "client_id": "60847688284-ikl643eo80qo296kk51f61mcrfh6232c.apps.googleusercontent.com",
-            "redirect_uri": "https://ttmailbot.site/google.oauth2",
+            "client_id": Environment.googleClientId,
+            "redirect_uri": redirectUri,
             "state": String(userId)
         ]
         for (key, value) in parameters {
@@ -33,10 +74,7 @@ class GoogleAuthController {
         }
         url.queryItems = items
         
-//        url.query = url.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-
         print(url.string!)
         return url.string! // Явное извлечение опционалов плохая практика
-//        return "google.com"
     }
 }

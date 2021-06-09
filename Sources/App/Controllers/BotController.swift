@@ -13,23 +13,6 @@ import Vapor
 #endif
 
 class BotController {
-    private class ErrorApiTamtam: Decodable {
-        let code: String
-        let message: String
-        
-        private enum ErrorApi: CodingKey {
-            case code
-            case message
-        }
-        
-        required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: ErrorApi.self)
-            code = try container.decode(String.self, forKey: .code)
-            message = try container.decode(String.self, forKey: .message)
-        }
-    }
-    
-    private let token = "vlIHSMAYdD4N3V_1LHKeeFJS9a9mJ7vu2eg6VLXzVWA"
     private let urlMessage = "https://botapi.tamtam.chat/messages"
     private let welcomeMessage = """
         Hello. I am a bot that can collect mail from e-mail and send it to Tam-Tam. If you want to add a mailbox, click on the /add command. You can do it right in my message)
@@ -89,7 +72,7 @@ class BotController {
         
         guard var url = URLComponents(string: urlMessage) else { return }
         var items: [URLQueryItem] = []
-        let parameters = ["access_token" : token, "chat_id": String(chatId)]
+        let parameters = ["access_token" : Environment.tamTamToken, "chat_id": String(chatId)]
         for (key, value) in parameters {
             items.append(URLQueryItem(name: key, value: value))
         }
@@ -105,14 +88,12 @@ class BotController {
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
-            if let data = data {
-                guard let responseData = try? JSONDecoder().decode(ErrorApiTamtam.self, from: data) else { return }
-                print("code: \(responseData.code)")
-                print("message: \(responseData.message)")
-            }
-            if let response = response {
-                let httpResponse = response as! HTTPURLResponse
-                print("response code = \(httpResponse.statusCode)")
+            guard let data = data else { return }
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+                print(String(decoding: jsonData, as: UTF8.self))
+            } else {
+                print("json отсутствует")
             }
         }.resume()
     }
@@ -123,7 +104,7 @@ class BotController {
         
         guard var url = URLComponents(string: urlMessage) else { return }
         var items: [URLQueryItem] = []
-        let parameters = ["access_token" : token, "chat_id": String(chatId)]
+        let parameters = ["access_token" : Environment.tamTamToken, "chat_id": String(chatId)]
         for (key, value) in parameters {
             items.append(URLQueryItem(name: key, value: value))
         }
@@ -133,6 +114,14 @@ class BotController {
         request.httpBody = json
         
         let session = URLSession(configuration: .ephemeral)
-        session.dataTask(with: request).resume()
+        session.dataTask(with: request) { (data, response, error) in
+            guard let data = data else { return }
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+                print(String(decoding: jsonData, as: UTF8.self))
+            } else {
+                print("json отсутствует")
+            }
+        }.resume()
     }
 }

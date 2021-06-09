@@ -5,7 +5,7 @@ func routes(_ app: Application) throws {
     app.get("google.oauth2", use: GoogleAuthController().handleAuth)
     app.post("WebHookGmail", use: GmailController().handleWebHook)
     
-    app.get("") { req -> HTTPResponseStatus in
+    app.get() { req -> HTTPResponseStatus in
         print("Полученный запрос:")
         print(req.description)
         return HTTPStatus.ok
