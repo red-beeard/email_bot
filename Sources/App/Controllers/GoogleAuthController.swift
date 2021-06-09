@@ -43,13 +43,17 @@ class GoogleAuthController {
             "prompt": "consent"
         ]
         
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .withoutEscapingSlashes
-        let json = try? encoder.encode(parameters)
+//        let encoder = JSONEncoder()
+//        encoder.outputFormatting = .withoutEscapingSlashes
+//        let json = try? encoder.encode(parameters)
+        
+        
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = json
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if let json = try? JSONSerialization.jsonObject(with: json!, options: .mutableContainers),
            let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
