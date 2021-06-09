@@ -13,6 +13,7 @@ class GoogleAuthController {
     
     func handleAuth(req: Request) throws -> HTTPResponseStatus {
         print(req.url.string)
+        let authCode = String()
         return HTTPStatus.ok
     }
     
