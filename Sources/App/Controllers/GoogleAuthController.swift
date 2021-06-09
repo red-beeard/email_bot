@@ -43,10 +43,9 @@ class GoogleAuthController {
             "prompt": "consent"
         ]
         
-//        let encoder = JSONEncoder()
+        let encoder = JSONEncoder()
 //        encoder.outputFormatting = .withoutEscapingSlashes
-//        let json = try? encoder.encode(parameters)
-        
+        let json = try? encoder.encode(parameters)
         
         
         var request = URLRequest(url: url)
