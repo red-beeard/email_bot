@@ -6,6 +6,9 @@
 //
 
 import Vapor
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 
 class GoogleAuthController {
     private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
