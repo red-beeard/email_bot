@@ -43,22 +43,14 @@ class GoogleAuthController {
             "prompt": "consent"
         ]
         
-        let encoder = JSONEncoder()
-//        encoder.outputFormatting = .withoutEscapingSlashes
-        let json = try? encoder.encode(parameters)
-        
+        let json = try? JSONEncoder().encode(parameters)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = json
-        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        if let json = try? JSONSerialization.jsonObject(with: json!, options: .mutableContainers),
-           let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
-            print(String(decoding: jsonData, as: UTF8.self))
-        }
-        
+        var result = "dadada"
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
@@ -69,7 +61,9 @@ class GoogleAuthController {
             } else {
                 print("json отсутствует")
             }
+            result = "response"
         }.resume()
+        print(result)
         return ""
     }
     

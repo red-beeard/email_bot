@@ -81,6 +81,7 @@ class BotController {
         // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
         request.httpBody = json
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         print("\nОтправляемый запрос:")
         print(String(data: json, encoding: .utf8) ?? "Не распечатал")
@@ -112,6 +113,7 @@ class BotController {
         var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
         request.httpBody = json
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
