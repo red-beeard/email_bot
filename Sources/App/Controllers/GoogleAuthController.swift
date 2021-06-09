@@ -38,7 +38,7 @@ class GoogleAuthController {
             "client_secret": Environment.googleClientSecret,
             "grant_type": "authorization_code",
             "redirect_uri": redirectUri,
-            "code": authCode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+            "code": authCode,
             "access_type": "offline",
             "prompt": "consent"
         ]
