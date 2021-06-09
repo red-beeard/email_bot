@@ -48,6 +48,12 @@ class GoogleAuthController {
         request.httpMethod = "POST"
         request.httpBody = json
         
+        if let json = try? JSONSerialization.jsonObject(with: json!, options: .mutableContainers),
+           let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+            print(String(decoding: jsonData, as: UTF8.self))
+        }
+        
+        
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
