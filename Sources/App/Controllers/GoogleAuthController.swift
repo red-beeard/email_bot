@@ -31,6 +31,7 @@ class GoogleAuthController {
     }
     
     func getAccessToken(authCode: String) -> String {
+        print(authCode)
         guard let url = URL(string: tokenUri) else { return "" }
         
         let parameters = [
