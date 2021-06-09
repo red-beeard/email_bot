@@ -42,7 +42,10 @@ class GoogleAuthController {
             "access_type": "offline",
             "prompt": "consent"
         ]
-        let json = try? JSONEncoder().encode(parameters)
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .withoutEscapingSlashes
+        let json = try? encoder.encode(parameters)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
