@@ -14,6 +14,7 @@ class GoogleAuthController {
     private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
     private let tokenUri = "https://oauth2.googleapis.com/token"
     private let redirectUri = "https://ttmailbot.site/google.oauth2"
+    private var someVar = "someVar"
     
     func handleAuth(req: Request) throws -> HTTPResponseStatus {
         print(req.url.string)
@@ -51,8 +52,6 @@ class GoogleAuthController {
         request.httpBody = json
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        var result = "dadada"
-        
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
@@ -62,9 +61,9 @@ class GoogleAuthController {
             } else {
                 print("json отсутствует")
             }
-            result = "response"
+            self.someVar = "response"
         }.resume()
-        print(result)
+        print(someVar)
         return ""
     }
     
