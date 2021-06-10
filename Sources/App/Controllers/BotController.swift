@@ -104,12 +104,36 @@ class BotController {
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }
-        var items: [URLQueryItem] = []
-        let parameters = ["access_token" : Environment.tamTamToken, "chat_id": String(chatId)]
-        for (key, value) in parameters {
-            items.append(URLQueryItem(name: key, value: value))
-        }
-        url.queryItems = items
+        url.queryItems = [
+            URLQueryItem(name: "access_token", value: Environment.tamTamToken),
+            URLQueryItem(name: "chat_id", value: String(chatId))
+        ]
+        var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
+        request.httpMethod = "POST"
+        request.httpBody = json
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session = URLSession(configuration: .ephemeral)
+        session.dataTask(with: request) { (data, response, error) in
+            guard let data = data else { return }
+            if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
+                print(String(decoding: jsonData, as: UTF8.self))
+            } else {
+                print("json отсутствует")
+            }
+        }.resume()
+    }
+    
+    func sendMessage(with text: String, to userId: String) throws {
+        let message = NewMessageBody(with: text)
+        let json = try JSONEncoder().encode(message)
+        
+        guard var url = URLComponents(string: urlMessage) else { return }
+        url.queryItems = [
+            URLQueryItem(name: "access_token", value: Environment.tamTamToken),
+            URLQueryItem(name: "user_id", value: userId)
+        ]
         var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
         request.httpBody = json
