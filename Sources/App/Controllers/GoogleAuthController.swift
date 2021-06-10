@@ -72,7 +72,7 @@ class GoogleAuthController {
 //            return HTTPStatus.ok
 //        }
         
-        if authClient?.refreshToken == nil {
+        if authClient?.refresh_token == nil {
             try BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
             return HTTPStatus.ok
         }
