@@ -14,8 +14,8 @@ struct AuthClient: Content {
     let id_token: String
     let access_token: String
     let token_type: String
-    let expires_in: String
-    let scope: Int
+    let expires_in: Int
+    let scope: String
     let refresh_token: String?
 }
 
