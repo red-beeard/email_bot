@@ -65,14 +65,14 @@ class GoogleAuthController {
 //        }
 //        try? response.wait()
 //        response.eventLoop.
-        let result = try? response.wait()
+        let authClient = try? response.wait()
         
 //        guard let authClient = try getAuthClient(for: req, and: authCode) else {
 //            print("Получить токены не удалось")
 //            return HTTPStatus.ok
 //        }
         
-        if authClient.refreshToken == nil {
+        if authClient?.refreshToken == nil {
             try BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
             return HTTPStatus.ok
         }
