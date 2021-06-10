@@ -75,14 +75,15 @@ class GoogleAuthController {
         }.map { res in
             try? res.content.decode(AuthClient.self)
         }
-        var result: AuthClient?
-        DispatchQueue.main.async {
-            result = try? response.wait()
-        }
+//        var result: AuthClient?
+//        DispatchQueue.main.async {
+//            result = try? response.wait()
+//        }
+//        try? response.wait()
 //        response.eventLoop.
-//        let result = try response.wait()
+        let result = try? response.wait()
 //        let result = res
-//        print(5)
+        print(5)
         return result
     }
     
