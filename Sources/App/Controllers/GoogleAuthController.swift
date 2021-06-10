@@ -62,7 +62,10 @@ class GoogleAuthController {
             } else {
                 print("json отсутствует")
             }
-            self.someVar = "response"
+            DispatchQueue.main.sync {
+                self.someVar = "response"
+            }
+            
         }.resume()
         print(someVar)
         return ""
