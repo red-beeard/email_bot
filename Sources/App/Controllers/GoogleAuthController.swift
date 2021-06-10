@@ -27,6 +27,7 @@ class GoogleAuthController {
         print("")
         
         print(getAccessToken(authCode: authCode))
+        print(someVar)
         
         return HTTPStatus.ok
     }
