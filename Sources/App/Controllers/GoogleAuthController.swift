@@ -48,7 +48,8 @@ class GoogleAuthController {
                 ]
             )
         }.map { res in
-            print(res.description)
+            let result = try? res.content.decode(AuthClient.self)
+            print(result?.access_token ?? "nil")
         }
         
         
