@@ -38,9 +38,10 @@ class GoogleAuthController {
                 ]
             )
         }.map { res in
-            try? res.content.decode(String.self)
+            let str = try? res.content.decode(String.self)
+            print(str ?? "ybxu")
         }
-        print(response)
+        
         
 //        print(getAccessToken(authCode: authCode))
         print(someVar)
