@@ -10,6 +10,15 @@ import Vapor
     import FoundationNetworking
 #endif
 
+struct AuthClient: Content {
+    let id_token: String
+    let access_token: String
+    let token_type: String
+    let expires_in: String
+    let scope: String
+    let refresh_token: String?
+}
+
 class GoogleAuthController {
     private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
     private let tokenUri = "https://oauth2.googleapis.com/token"
@@ -25,6 +34,7 @@ class GoogleAuthController {
         }
         print(authCode)
         print("")
+        
         let response = req.client.post(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
@@ -38,8 +48,7 @@ class GoogleAuthController {
                 ]
             )
         }.map { res in
-            let str = try? res.content.decode(String.self)
-            print(str ?? "ybxu")
+            print(res.description)
         }
         
         
