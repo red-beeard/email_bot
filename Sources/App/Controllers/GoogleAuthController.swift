@@ -32,6 +32,7 @@ class GoogleAuthController {
     
     func getAccessToken(authCode: String) -> String {
         guard let url = URL(string: tokenUri) else { return "" }
+        print(Unmanaged.passUnretained(self).toOpaque())
         
         let parameters = [
             "client_id": Environment.googleClientId,
