@@ -75,8 +75,9 @@ class GoogleAuthController {
         }.map { res in
             try? res.content.decode(AuthClient.self)
         }
-        
-        return try response.wait()
+        let result = try response.wait()
+        print(5)
+        return result
     }
     
     func getUrlForAuth(for userId: Int64) -> String {
