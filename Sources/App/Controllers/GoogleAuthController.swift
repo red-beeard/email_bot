@@ -44,10 +44,33 @@ class GoogleAuthController {
         print(authCode)
         print("")
         
-        guard let authClient = try getAuthClient(for: req, and: authCode) else {
-            print("Получить токены не удалось")
-            return HTTPStatus.ok
+        let response = req.client.post(URI(string: tokenUri)) { req in
+            try req.content.encode(
+                [
+                    "client_id": Environment.googleClientId,
+                    "client_secret": Environment.googleClientSecret,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": redirectUri,
+                    "code": authCode,
+                    "access_type": "offline",
+                    "prompt": "consent"
+                ]
+            )
+        }.map { res in
+            try? res.content.decode(AuthClient.self)
         }
+//        var result: AuthClient?
+//        DispatchQueue.main.async {
+//            result = try? response.wait()
+//        }
+//        try? response.wait()
+//        response.eventLoop.
+        let result = try? response.wait()
+        
+//        guard let authClient = try getAuthClient(for: req, and: authCode) else {
+//            print("Получить токены не удалось")
+//            return HTTPStatus.ok
+//        }
         
         if authClient.refreshToken == nil {
             try BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
