@@ -42,14 +42,14 @@ class GoogleAuthController {
 //            if client.refreshToken == nil {
 //                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
 //            } else {
-//
-//            }
             let profileUser = self.getUserProfile(for: req, by: client.accessToken)
             profileUser.whenSuccess { profileUser in
                 print(profileUser.emailAddress)
+                GmailController().watch(by: client.accessToken)
             }
+//            }
+            
         }
-        
         
         return HTTPStatus.ok
     }
