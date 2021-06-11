@@ -54,7 +54,7 @@ class GoogleAuthController {
     }
     
     func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthResponse> {
-        let response = req.client.post(URI(string: tokenUri)) { req in
+        let response = req.client.get(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
                     "client_id": Environment.googleClientId,
