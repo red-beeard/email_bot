@@ -7,17 +7,8 @@
 
 import Vapor
 #if canImport(FoundationNetworking)
-    import FoundationNetworking
+import FoundationNetworking
 #endif
-
-//struct AuthClient: Content {
-//    let id_token: String
-//    let access_token: String
-//    let token_type: String
-//    let expires_in: Int
-//    let scope: String
-//    let refresh_token: String?
-//}
 
 class GoogleAuthController {
     private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -44,27 +35,20 @@ class GoogleAuthController {
         print(authCode)
         print("")
         
-//        DispatchQueue.main.async {
-            let futureAuthClient = self.getAuthClient(for: req, and: authCode)
-            futureAuthClient.whenSuccess { client in
-                print(client?.accessToken ?? "Нет access token")
-                if client?.refreshToken == nil {
-                    try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
-                }
+        let futureAuthClient = self.getAuthClient(for: req, and: authCode)
+        try futureAuthClient.wait()
+        futureAuthClient.whenSuccess { client in
+            print(client.accessToken)
+            if client.refreshToken == nil {
+                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
             }
-//
-//            guard let authClient = self.getAuthClient(for: req, and: authCode) else {
-//                return HTTPStatus.ok
-//            }
-
-//            if authClient.refreshToken == nil {
-//                try? BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
-//            }
-//        }
+        }
+        
+        
         return HTTPStatus.ok
     }
     
-    func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthClient?> {
+    func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthClient> {
         let response = req.client.post(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
@@ -77,14 +61,9 @@ class GoogleAuthController {
                     "prompt": "consent"
                 ]
             )
-        }.map { res in
-            return try? res.content.decode(AuthClient.self)
+        }.flatMapThrowing { res in
+            return try res.content.decode(AuthClient.self)
         }
-        
-        // Получить AuthClient
-        print(response)
-
-        
         return response
     }
     
