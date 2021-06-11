@@ -54,7 +54,7 @@ class GoogleAuthController {
     }
     
     func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthResponse> {
-        let response = req.client.get(URI(string: tokenUri)) { req in
+        let response = req.client.post(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
                     "client_id": Environment.googleClientId,
@@ -75,7 +75,8 @@ class GoogleAuthController {
     func getUserProfile(for req: Request, by accessToken: String) -> EventLoopFuture<ProfileResponse> {
         let response = req.client.get(URI(string: tokenUri)) { req in
             req.headers.add(name: "Authorization", value: "Bearer \(accessToken)")
-        }.flatMapThrowing { res in
+        }.flatMapThrowing { res -> ProfileResponse in
+            print(res.status)
             return try res.content.decode(ProfileResponse.self)
         }
         return response
