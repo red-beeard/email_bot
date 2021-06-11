@@ -1,11 +1,11 @@
 //
-//  AuthClient.swift
+//  AuthResponse.swift
 //  
 //
 //  Created by Red Beard on 10.06.2021.
 //
 
-class AuthClient: Codable {
+class AuthResponse: Codable {
     let idToken: String
     let accessToken: String
     let tokenType: String

@@ -36,11 +36,16 @@ class GoogleAuthController {
         print("")
         
         let futureAuthClient = self.getAuthClient(for: req, and: authCode)
-        try futureAuthClient.wait()
         futureAuthClient.whenSuccess { client in
             print(client.accessToken)
-            if client.refreshToken == nil {
-                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
+//            if client.refreshToken == nil {
+//                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
+//            } else {
+//
+//            }
+            let profileUser = self.getUserProfile(for: req, by: client.accessToken)
+            profileUser.whenSuccess { profileUser in
+                print(profileUser.emailAddress)
             }
         }
         
@@ -48,7 +53,7 @@ class GoogleAuthController {
         return HTTPStatus.ok
     }
     
-    func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthClient> {
+    func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthResponse> {
         let response = req.client.post(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
@@ -62,7 +67,16 @@ class GoogleAuthController {
                 ]
             )
         }.flatMapThrowing { res in
-            return try res.content.decode(AuthClient.self)
+            return try res.content.decode(AuthResponse.self)
+        }
+        return response
+    }
+    
+    func getUserProfile(for req: Request, by accessToken: String) -> EventLoopFuture<ProfileResponse> {
+        let response = req.client.get(URI(string: tokenUri)) { req in
+            req.headers.add(name: "Authorization", value: "Bearer \(accessToken)")
+        }.flatMapThrowing { res in
+            return try res.content.decode(ProfileResponse.self)
         }
         return response
     }
