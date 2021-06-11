@@ -13,6 +13,7 @@ import FoundationNetworking
 class GoogleAuthController {
     private let authUri = "https://accounts.google.com/o/oauth2/v2/auth"
     private let tokenUri = "https://oauth2.googleapis.com/token"
+    private let profileUri = "https://gmail.googleapis.com/gmail/v1/users/me/profile"
     private let redirectUri = "https://ttmailbot.site/google.oauth2"
     
     private let alreadyLoggedMessage = """
@@ -73,7 +74,7 @@ class GoogleAuthController {
     }
     
     func getUserProfile(for req: Request, by accessToken: String) -> EventLoopFuture<ProfileResponse> {
-        let response = req.client.get(URI(string: tokenUri)) { req in
+        let response = req.client.get(URI(string: profileUri)) { req in
             req.headers.add(name: "Authorization", value: "Bearer \(accessToken)")
         }.flatMapThrowing { res -> ProfileResponse in
             print(res.status)
