@@ -82,6 +82,7 @@ class GoogleAuthController {
         }
         
         // Получить AuthClient
+        print(response)
 
         
         return response
