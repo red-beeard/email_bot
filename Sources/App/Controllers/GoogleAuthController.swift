@@ -44,45 +44,27 @@ class GoogleAuthController {
         print(authCode)
         print("")
         
-        let response = req.client.post(URI(string: tokenUri)) { req in
-            try req.content.encode(
-                [
-                    "client_id": Environment.googleClientId,
-                    "client_secret": Environment.googleClientSecret,
-                    "grant_type": "authorization_code",
-                    "redirect_uri": redirectUri,
-                    "code": authCode,
-                    "access_type": "offline",
-                    "prompt": "consent"
-                ]
-            )
-        }.map { res in
-            try? res.content.decode(AuthClient.self)
+        DispatchQueue.main.async {
+            let futureAuthClient = self.getAuthClient(for: req, and: authCode)
+            futureAuthClient.whenSuccess { client in
+                print(client?.accessToken ?? "Нет access token")
+                if client?.refreshToken == nil {
+                    try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
+                }
+            }
+//
+//            guard let authClient = self.getAuthClient(for: req, and: authCode) else {
+//                return HTTPStatus.ok
+//            }
+
+//            if authClient.refreshToken == nil {
+//                try? BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
+//            }
         }
-//        var result: AuthClient?
-//        DispatchQueue.main.async {
-//            result = try? response.wait()
-//        }
-//        try? response.wait()
-//        response.eventLoop.
-        let authClient = try? response.wait()
-        
-//        guard let authClient = try getAuthClient(for: req, and: authCode) else {
-//            print("Получить токены не удалось")
-//            return HTTPStatus.ok
-//        }
-        
-        if authClient?.refresh_token == nil {
-            try BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
-            return HTTPStatus.ok
-        }
-        
-        
-        
         return HTTPStatus.ok
     }
     
-    func getAuthClient(for req: Request, and authCode: String) throws -> AuthClient? {
+    func getAuthClient(for req: Request, and authCode: String) -> EventLoopFuture<AuthClient?> {
         let response = req.client.post(URI(string: tokenUri)) { req in
             try req.content.encode(
                 [
@@ -96,18 +78,13 @@ class GoogleAuthController {
                 ]
             )
         }.map { res in
-            try? res.content.decode(AuthClient.self)
+            return try? res.content.decode(AuthClient.self)
         }
-//        var result: AuthClient?
-//        DispatchQueue.main.async {
-//            result = try? response.wait()
-//        }
-//        try? response.wait()
-//        response.eventLoop.
-        let result = try? response.wait()
-//        let result = res
-        print(5)
-        return result
+        
+        // Получить AuthClient
+
+        
+        return response
     }
     
     func getUrlForAuth(for userId: Int64) -> String {
