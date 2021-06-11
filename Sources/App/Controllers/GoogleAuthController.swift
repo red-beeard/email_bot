@@ -44,7 +44,7 @@ class GoogleAuthController {
         print(authCode)
         print("")
         
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
             let futureAuthClient = self.getAuthClient(for: req, and: authCode)
             futureAuthClient.whenSuccess { client in
                 print(client?.accessToken ?? "Нет access token")
@@ -60,7 +60,7 @@ class GoogleAuthController {
 //            if authClient.refreshToken == nil {
 //                try? BotController().sendMessage(with: alreadyLoggedMessage, to: userId)
 //            }
-        }
+//        }
         return HTTPStatus.ok
     }
     
