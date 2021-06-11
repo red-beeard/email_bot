@@ -6,6 +6,9 @@
 //
 
 import Vapor
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class GmailController {
     private let topicName = "projects/crested-archive-309914/topics/TamTamEmail"
