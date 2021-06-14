@@ -49,12 +49,16 @@ class GoogleAuthController {
 
             let profileUser = self.getUserProfile(for: req, by: client.accessToken)
             profileUser.whenSuccess { profileUser in
-                let _ = GoogleDatabaseModel(
+                let record = GoogleDatabaseModel(
                     userId: userId,
                     accessToken: client.accessToken,
                     refreshToken: refreshToken,
                     emailAddress: profileUser.emailAddress
                 ).create(on: req.db)
+                record.whenFailure { err in
+                    print(err)
+                }
+                
                 try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
                 GmailController().watch(by: client.accessToken)
 
