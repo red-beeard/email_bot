@@ -48,12 +48,12 @@ class BotController {
         guard let chatId = update.message.recipient.chatId else { return }
         guard let text = update.message.body.text else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
-            try sendKeyboardChat(to: chatId, and: update.message.sender.userId, for: "email")
             return
         }
         
         if text == "/add" {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
+            try sendKeyboardChat(to: chatId, and: update.message.sender.userId, for: "email")
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
         }
