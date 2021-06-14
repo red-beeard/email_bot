@@ -13,7 +13,7 @@ final class GoogleDatabaseModel: Model, Content {
     static let schema = "google_email"
 
     @ID(custom: "ID")
-    var id: UUID?
+    var id: Int?
 
     @Field(key: "user_id")
     var userId: Int64
@@ -32,7 +32,7 @@ final class GoogleDatabaseModel: Model, Content {
     
     init() { }
 
-    init(id: UUID? = nil, userId: Int64, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String) {
+    init(id: Int? = nil, userId: Int64, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String) {
         self.id = id
         self.userId = userId
         self.chatId = chatId
