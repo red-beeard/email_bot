@@ -10,38 +10,34 @@ import Fluent
 import FluentPostgresDriver
 
 final class GoogleDatabaseModel: Model {
-    static let schema = "GOOGLE"
+    static let schema = "google_email"
 
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "USER_ID")
+    @Field(key: "user_id")
     var userId: Int64
     
-    @Field(key: "USER_ID")
+    @Field(key: "chat_id")
     var chatId: Int64?
     
-    @Field(key: "ACCESS_TOKEN")
+    @Field(key: "access_token")
     var accessToken: String
     
-    @Field(key: "REFRESH_TOKEN")
+    @Field(key: "refresh_token")
     var refreshToken: String
     
-    @Field(key: "EMAIL_ADDRESS")
+    @Field(key: "email_address")
     var emailAddress: String
-    
-    @Field(key: "EXPIRES_IN")
-    var expiresIn: Int
     
     init() { }
 
-    init(id: UUID? = nil, userId: Int64, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String, expiresIn: Int) {
+    init(id: UUID? = nil, userId: Int64, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String) {
         self.id = id
         self.userId = userId
         self.chatId = chatId
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.emailAddress = emailAddress
-        self.expiresIn = expiresIn
     }
 }

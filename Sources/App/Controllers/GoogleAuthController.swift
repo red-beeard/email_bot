@@ -28,7 +28,7 @@ class GoogleAuthController {
             print("auth_code не пришёл")
             return HTTPStatus.ok
         }
-
+        
         guard let userId: Int64 = Int64(req.query["state"] ?? "none") else {
             print("Отсутствует user_id (state)")
             return HTTPStatus.ok
@@ -40,16 +40,16 @@ class GoogleAuthController {
         let futureAuthClient = self.getAuthClient(for: req, and: authCode)
         futureAuthClient.whenSuccess { client in
             print(client.accessToken)
-//            if client.refreshToken == nil {
-//                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
-//            } else {
-            let profileUser = self.getUserProfile(for: req, by: client.accessToken)
-            profileUser.whenSuccess { profileUser in
-                print(profileUser.emailAddress)
-                try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
-                GmailController().watch(by: client.accessToken)
+            if client.refreshToken == nil {
+                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
+            } else {
+                let profileUser = self.getUserProfile(for: req, by: client.accessToken)
+                profileUser.whenSuccess { profileUser in
+                    print(profileUser.emailAddress)
+                    try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
+                    GmailController().watch(by: client.accessToken)
+                }
             }
-//            }
             
         }
         
