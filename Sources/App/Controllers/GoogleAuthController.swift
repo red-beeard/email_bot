@@ -28,7 +28,8 @@ class GoogleAuthController {
             print("auth_code не пришёл")
             return HTTPStatus.ok
         }
-        guard let userId: String = req.query["state"] else {
+
+        guard let userId: Int64 = Int64(req.query["state"] ?? "none") else {
             print("Отсутствует user_id (state)")
             return HTTPStatus.ok
         }
@@ -45,6 +46,7 @@ class GoogleAuthController {
             let profileUser = self.getUserProfile(for: req, by: client.accessToken)
             profileUser.whenSuccess { profileUser in
                 print(profileUser.emailAddress)
+                try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
                 GmailController().watch(by: client.accessToken)
             }
 //            }

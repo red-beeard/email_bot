@@ -9,7 +9,7 @@
 
 import Vapor
 #if canImport(FoundationNetworking)
-    import FoundationNetworking
+import FoundationNetworking
 #endif
 
 class BotController {
@@ -53,7 +53,6 @@ class BotController {
         
         if text == "/add" {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
-            try sendKeyboardChat(to: chatId, and: update.message.sender.userId, for: "email")
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
         }
@@ -107,18 +106,16 @@ class BotController {
         }.resume()
     }
     
-    private func sendKeyboardChat(to chatId: Int64, and userId: Int64, for email: String) throws {
+    func sendKeyboardChat(to userId: Int64, for email: String) throws {
         let keyboard = getKeyboardChat(for: email)
         let message = NewMessageBody(with: "You are signed in for \(email)", with: [keyboard])
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }
-        var items: [URLQueryItem] = []
-        let parameters = ["access_token" : Environment.tamTamToken, "chat_id": String(chatId)]
-        for (key, value) in parameters {
-            items.append(URLQueryItem(name: key, value: value))
-        }
-        url.queryItems = items
+        url.queryItems = [
+            URLQueryItem(name: "access_token", value: Environment.tamTamToken),
+            URLQueryItem(name: "user_id", value: String(userId))
+        ]
         var request = URLRequest(url: (url.url)!)
         // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
