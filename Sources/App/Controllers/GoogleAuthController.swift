@@ -6,6 +6,8 @@
 //
 
 import Vapor
+import Fluent
+import FluentPostgresDriver
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
