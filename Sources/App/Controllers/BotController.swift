@@ -55,7 +55,7 @@ class BotController {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
-            sendKeyboardChat(userId = 55425980367)
+            sendKeyboardChat(to: chatId, and: update.message.sender.userId)
         }
     }
     
