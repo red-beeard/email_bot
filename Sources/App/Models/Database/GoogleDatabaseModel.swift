@@ -12,7 +12,7 @@ import FluentPostgresDriver
 final class GoogleDatabaseModel: Model, Content {
     static let schema = "google_email"
 
-    @ID(key: .id)
+    @ID(custom: "ID")
     var id: UUID?
 
     @Field(key: "user_id")
