@@ -38,6 +38,9 @@ class BotController {
         case .botStarted:
             let webHook = try req.content.decode(BotStartedUpdate.self)
             try sendMessage(with: welcomeMessage, to: webHook.chatId)
+        case .userAdded:
+            let webHook = try req.content.decode(UserAddedToChatUpdate.self)
+            try handleUserAddedToChatUpdate(webHook)
         default: print("Другой вебхук")
         }
         
@@ -56,6 +59,11 @@ class BotController {
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
         }
+    }
+    
+    func handleUserAddedToChatUpdate(_ update: UserAddedToChatUpdate) throws {
+        print("user added")
+        return
     }
     
     private func getKeyboardServices(for userId: Int64) -> InlineKeyboardAttachmentRequest {
