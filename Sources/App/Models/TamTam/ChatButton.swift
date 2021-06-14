@@ -23,7 +23,7 @@ class ChatButton: Button {
     private enum CodingKeys: String, CodingKey {
         case type
         case text
-        case chatTitle = "chatTitle"
+        case chatTitle = "chat_title"
         case chatDescription = "chat_description"
         case startPayload = "start_payload"
         case uuid
