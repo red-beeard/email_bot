@@ -41,7 +41,7 @@ class GoogleAuthController {
         futureAuthClient.whenSuccess { client in
             print(client.accessToken)
             if client.refreshToken == nil {
-                try? BotController().sendMessage(with: self.alreadyLoggedMessage, to: userId)
+                try? BotController().sendMessage(with: self.alreadyLoggedMessage, toUser: userId)
             } else {
                 let profileUser = self.getUserProfile(for: req, by: client.accessToken)
                 profileUser.whenSuccess { profileUser in

@@ -37,7 +37,7 @@ class BotController {
             try handleMessageCreated(webHook)
         case .botStarted:
             let webHook = try req.content.decode(BotStartedUpdate.self)
-            try sendMessage(with: welcomeMessage, to: webHook.chatId)
+            try sendMessage(with: welcomeMessage, toChat: webHook.chatId)
         case .userAdded:
             let webHook = try req.content.decode(UserAddedToChatUpdate.self)
             try handleUserAddedToChatUpdate(webHook)
@@ -50,14 +50,14 @@ class BotController {
     func handleMessageCreated(_ update: MessageCreatedUpdate) throws {
         guard let chatId = update.message.recipient.chatId else { return }
         guard let text = update.message.body.text else {
-            try sendMessage(with: dontUnderstandMessage, to: chatId)
+            try sendMessage(with: dontUnderstandMessage, toChat: chatId)
             return
         }
         
         if text == "/add" {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
         } else {
-            try sendMessage(with: dontUnderstandMessage, to: chatId)
+            try sendMessage(with: dontUnderstandMessage, toChat: chatId)
         }
     }
     
@@ -146,14 +146,14 @@ class BotController {
         }.resume()
     }
     
-    func sendMessage(with text: String, to chatId: Int64) throws {
+    func sendMessage(with text: String, toChat id: Int64) throws {
         let message = NewMessageBody(with: text)
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }
         url.queryItems = [
             URLQueryItem(name: "access_token", value: Environment.tamTamToken),
-            URLQueryItem(name: "chat_id", value: String(chatId))
+            URLQueryItem(name: "chat_id", value: String(id))
         ]
         var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
@@ -172,14 +172,14 @@ class BotController {
         }.resume()
     }
     
-    func sendMessage(with text: String, to userId: String) throws {
+    func sendMessage(with text: String, toUser id: Int64) throws {
         let message = NewMessageBody(with: text)
         let json = try JSONEncoder().encode(message)
         
         guard var url = URLComponents(string: urlMessage) else { return }
         url.queryItems = [
             URLQueryItem(name: "access_token", value: Environment.tamTamToken),
-            URLQueryItem(name: "user_id", value: userId)
+            URLQueryItem(name: "user_id", value: String(id))
         ]
         var request = URLRequest(url: (url.url)!) // Явное извлечения опционала плохая практика
         request.httpMethod = "POST"
