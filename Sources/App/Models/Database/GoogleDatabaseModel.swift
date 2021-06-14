@@ -16,7 +16,7 @@ final class GoogleDatabaseModel: Model {
     var id: UUID?
 
     @Field(key: "USER_ID")
-    var userId: Int64?
+    var userId: Int64
     
     @Field(key: "USER_ID")
     var chatId: Int64?
@@ -35,7 +35,7 @@ final class GoogleDatabaseModel: Model {
     
     init() { }
 
-    init(id: UUID? = nil, userId: Int64? = nil, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String, expiresIn: Int) {
+    init(id: UUID? = nil, userId: Int64, chatId: Int64? = nil, accessToken: String, refreshToken: String, emailAddress: String, expiresIn: Int) {
         self.id = id
         self.userId = userId
         self.chatId = chatId
