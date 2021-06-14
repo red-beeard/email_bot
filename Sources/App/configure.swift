@@ -1,4 +1,6 @@
 import Vapor
+import Fluent
+import FluentSQLiteDriver
 
 // configures your application
 public func configure(_ app: Application) throws {
