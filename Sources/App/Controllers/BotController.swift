@@ -47,6 +47,7 @@ class BotController {
     func handleMessageCreated(_ update: MessageCreatedUpdate) throws {
         guard let chatId = update.message.recipient.chatId else { return }
         guard let text = update.message.body.text else {
+            try sendKeyboardChat(to: chatId, and: update.message.sender.userId)
             try sendMessage(with: dontUnderstandMessage, to: chatId)
             return
         }
@@ -55,7 +56,6 @@ class BotController {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
-            sendKeyboardChat(to: chatId, and: update.message.sender.userId)
         }
     }
     
