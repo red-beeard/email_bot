@@ -12,8 +12,6 @@ public func configure(_ app: Application) throws {
                         password: Environment.passwordDatabase,
                         database: Environment.database
     ), as: .psql)
-//    try app.databases.use(.postgres(url: "Connection to database"), as: .psql)
-
 
     // register routes
     
