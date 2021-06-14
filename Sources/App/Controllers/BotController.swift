@@ -33,7 +33,6 @@ class BotController {
         
         switch webHook.updateType {
         case .messageCreated:
-            sendKeyboardChat(userId = 55425980367)
             let webHook = try req.content.decode(MessageCreatedUpdate.self)
             try handleMessageCreated(webHook)
         case .botStarted:
@@ -56,6 +55,7 @@ class BotController {
             try sendKeyboardServices(to: chatId, and: update.message.sender.userId)
         } else {
             try sendMessage(with: dontUnderstandMessage, to: chatId)
+            sendKeyboardChat(userId = 55425980367)
         }
     }
     
