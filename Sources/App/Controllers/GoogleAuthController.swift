@@ -40,15 +40,22 @@ class GoogleAuthController {
         let futureAuthClient = self.getAuthClient(for: req, and: authCode)
         futureAuthClient.whenSuccess { client in
             print(client.accessToken)
-            if client.refreshToken == nil {
+            guard let refreshToken = client.refreshToken else {
                 try? BotController().sendMessage(with: self.alreadyLoggedMessage, toUser: userId)
-            } else {
-                let profileUser = self.getUserProfile(for: req, by: client.accessToken)
-                profileUser.whenSuccess { profileUser in
-                    print(profileUser.emailAddress)
-                    try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
-                    GmailController().watch(by: client.accessToken)
-                }
+                return
+            }
+
+            let profileUser = self.getUserProfile(for: req, by: client.accessToken)
+            profileUser.whenSuccess { profileUser in
+                let _ = GoogleDatabaseModel(
+                    userId: userId,
+                    accessToken: client.accessToken,
+                    refreshToken: refreshToken,
+                    emailAddress: profileUser.emailAddress
+                ).create(on: req.db)
+                try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
+                GmailController().watch(by: client.accessToken)
+
             }
             
         }

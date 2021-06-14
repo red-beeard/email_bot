@@ -9,7 +9,7 @@ import Vapor
 import Fluent
 import FluentPostgresDriver
 
-final class GoogleDatabaseModel: Model {
+final class GoogleDatabaseModel: Model, Content {
     static let schema = "google_email"
 
     @ID(key: .id)
