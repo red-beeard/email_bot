@@ -8,6 +8,8 @@
 
 
 import Vapor
+import Fluent
+import FluentPostgresDriver
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -38,9 +40,9 @@ class BotController {
         case .botStarted:
             let webHook = try req.content.decode(BotStartedUpdate.self)
             try sendMessage(with: welcomeMessage, toChat: webHook.chatId)
-        case .userAdded:
-            let webHook = try req.content.decode(UserAddedToChatUpdate.self)
-            try handleUserAddedToChatUpdate(webHook)
+        case .messageChatCreated:
+            let webHook = try req.content.decode(MessageChatCreatedUpdate.self)
+            try handleMessageChatCreatedUpdate(webHook, with: req)
         default: print("Другой вебхук")
         }
         
@@ -61,9 +63,14 @@ class BotController {
         }
     }
     
-    func handleUserAddedToChatUpdate(_ update: UserAddedToChatUpdate) throws {
-        print("user added")
-        return
+    func handleMessageChatCreatedUpdate(_ update: MessageChatCreatedUpdate, with req: Request) throws {
+        guard let email = update.chat.title else { return }
+        guard let userId = Int64(update.startPayload ?? "none") else { return }
+        let _ = GoogleDatabaseModel.query(on: req.db)
+            .set(\.$chatId, to: update.chat.chatId)
+            .filter(\.$emailAddress == email)
+            .filter(\.$userId == userId)
+            .update()
     }
     
     private func getKeyboardServices(for userId: Int64) -> InlineKeyboardAttachmentRequest {
@@ -73,8 +80,11 @@ class BotController {
         return keyboard
     }
     
-    private func getKeyboardChat(for email: String) -> InlineKeyboardAttachmentRequest {
-        let buttons = [[ChatButton(text: "Open chat", chatTitle: email)]]
+    private func getKeyboardChat(for email: String, and userId: Int64) -> InlineKeyboardAttachmentRequest {
+        let buttons = [[ChatButton(
+                            text: "Open chat",
+                            chatTitle: email,
+                            startPayload: String(userId))]]
         let keyboardPayload = InlineKeyboardAttachmentRequestPayload(buttons: buttons)
         let keyboard = InlineKeyboardAttachmentRequest(payload: keyboardPayload)
         return keyboard
@@ -115,7 +125,7 @@ class BotController {
     }
     
     func sendKeyboardChat(to userId: Int64, for email: String) throws {
-        let keyboard = getKeyboardChat(for: email)
+        let keyboard = getKeyboardChat(for: email, and: userId)
         let message = NewMessageBody(with: "You are signed in for \(email)", with: [keyboard])
         let json = try JSONEncoder().encode(message)
         
