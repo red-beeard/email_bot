@@ -8,10 +8,11 @@
 class WatchRequest: Codable {
     let topicName: String
     let labelIds: [String]
-    // exist labelFilterAction
+    let labelFilterAction: LabelFilterAction
     
-    init(topicName: String, labelIds: [String]) {
+    init(topicName: String, labelIds: [String], labelFilterAction: LabelFilterAction) {
         self.topicName = topicName
         self.labelIds = labelIds
+        self.labelFilterAction = labelFilterAction
     }
 }
