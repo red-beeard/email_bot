@@ -18,6 +18,11 @@ class GmailController {
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
         print(req.description)
         print(req.body.string ?? "Ничего")
+        
+        let webHook = try req.content.decode(WatchWebhook.self)
+        print("Email: \(webHook.data.emailAddress)")
+        print("HistoryID: \(webHook.data.historyId)")
+        
         return HTTPStatus.ok
     }
     
