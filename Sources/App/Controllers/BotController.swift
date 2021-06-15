@@ -24,9 +24,9 @@ class BotController {
         """
     
     func handleWebHook(req: Request) throws -> HTTPResponseStatus {
-        print("Полученный запрос:")
-        print(req.description)
-        print(req.body.string ?? "Ничего")
+//        print("Полученный запрос:")
+//        print(req.description)
+//        print(req.body.string ?? "Ничего")
         print("\n")
         
         let webHook = try req.content.decode(Update.self)

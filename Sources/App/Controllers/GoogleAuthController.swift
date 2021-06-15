@@ -60,7 +60,7 @@ class GoogleAuthController {
                 }
                 
                 try? BotController().sendKeyboardChat(to: userId, for: profileUser.emailAddress)
-                GmailController().watch(by: client.accessToken)
+//                GmailController().watch(by: client.accessToken)
 
             }
             
