@@ -13,7 +13,7 @@ import FoundationNetworking
 #endif
 
 class GmailController {
-    private let topicName = "projects/crested-archive-309914/topics/TamTamEmail"
+    private let topicName = "projects/crested-archive-309914/topics/EmailTamTam"
     private let watchUri = "https://gmail.googleapis.com/gmail/v1/users/me/watch"
     private let historyUri = "https://gmail.googleapis.com/gmail/v1/users/me/history"
     
