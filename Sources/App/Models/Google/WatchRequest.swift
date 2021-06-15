@@ -8,11 +8,12 @@
 class WatchRequest: Codable {
     let topicName: String
     let labelIds: [String]
-    let labelFilterAction: LabelFilterAction
+//    let labelFilterAction: LabelFilterAction
     
-    init(topicName: String, labelIds: [String], labelFilterAction: LabelFilterAction) {
+    init(topicName: String, labelIds: [String]) {
         self.topicName = topicName
         self.labelIds = labelIds
-        self.labelFilterAction = labelFilterAction
+//        self.labelFilterAction = labelFilterAction
+//        , labelFilterAction: LabelFilterAction
     }
 }

@@ -59,7 +59,8 @@ class GmailController {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        request.httpBody = try? JSONEncoder().encode(WatchRequest(topicName: topicName, labelIds: ["INBOX"], labelFilterAction: .include))
+        request.httpBody = try? JSONEncoder().encode(WatchRequest(topicName: topicName, labelIds: ["INBOX"]))
+//        , labelFilterAction: .include
         
         let session = URLSession(configuration: .ephemeral)
         session.dataTask(with: request) { (data, response, error) in
