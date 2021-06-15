@@ -23,8 +23,8 @@ class GoogleAuthController {
         """
     
     func handleAuth(req: Request) throws -> HTTPResponseStatus {
-        print(req.url.string)
-        print("")
+//        print(req.url.string)
+//        print("")
         
         guard let authCode: String = req.query["code"] else {
             print("auth_code не пришёл")
@@ -36,8 +36,8 @@ class GoogleAuthController {
             return HTTPStatus.ok
         }
         
-        print(authCode)
-        print("")
+//        print(authCode)
+//        print("")
         
         let futureAuthClient = self.getAuthClient(for: req, and: authCode)
         futureAuthClient.whenSuccess { client in
@@ -114,7 +114,7 @@ class GoogleAuthController {
         }
         url.queryItems = items
         
-        print(url.string!)
+//        print(url.string!)
         return url.string! // Явное извлечение опционалов плохая практика
     }
 }
