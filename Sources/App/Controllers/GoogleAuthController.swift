@@ -45,7 +45,7 @@ class GoogleAuthController {
             let profileUser = self.getUserProfile(for: req, by: client.accessToken)
             profileUser.whenSuccess { profileUser in
                 print(profileUser.emailAddress)
-                GmailController().watch(by: client.accessToken)
+//                GmailController().watch(by: client.accessToken)
             }
 //            }
             
